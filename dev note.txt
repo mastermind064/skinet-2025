@@ -1,0 +1,100 @@
+.net core + angular
+======================================
+* SECTION 1
+	1. download dan install dotnet skd dari https://dotnet.microsoft.com/, gunakan versi 8
+	2. download dan isntall postman
+	3. download dan install vscode
+	4. download dan install docker desktop
+	5. config vscode, install extension:
+		- c# dev kit
+		- material icon them
+		- sql server
+		- nuget gallery
+		
+* SECTION 2
+	1. create dotnet project:
+		- struktur project:
+			API -> Infrastructure -> Core			
+		- dotnet list new --> list project yang bisa dibuat di dotnet
+		- .net core web api, classlib, solution
+		- dotnet new sln --> create new solution
+		- dotnet new webapi -o API -controllers --> bikin webapi dg nama API dan ada controller
+		- dotnet new classlib -o Core --> bikn classlib dg nama Core
+		- dotnet new classlib -o Infrastructure --> bikn classlib dg nama Infrastructure
+		- dotnet sln add API --> add API dalam solution
+		- dotnet sln add Core --> add Core dalam solution
+		- dotnet sln add Infrastructure --> add Infrastructure dalam solution
+		- dotnet sln list --> view project dalam solution
+		- config reference Infrastructure kedalam API:
+			- masuk dalam folder API, dotnet add reference ../Infrastructure
+		- config reference Core kedalam Infrastructure:
+			- masuk dalam folder Infrastructure, dotnet add reference ../Core
+		- dotnet restore --> restore project
+		- dotnet build --> build project pastiin nda ada error
+		
+	2. review project di vscode:
+		- dari vscode, pastikan ada view solution explorer. ini asalnya dari extension c# dev kit
+		- pastikan bisa run project, masuk ke folder API, dari terminal jalankan dotnet run
+		- pada project API:
+			- API -> properties -> launcSetting.json. sesuaikan profile, hilangkan swagger
+			- "applicationUrl": "http://localhost:5000;https://localhost:5001",
+			- Program.cs, sesuaikan file, hanya gunakan yang perlu2 aja.
+			
+		- dotnet watch --> run project dengan hot reload
+		
+	3. create Product Entity
+		- dari vscode solution explorer, masuk ke Core
+		- buat folder Entities
+		- buat file Class Product
+		- gunakan snipet prop untuk membuat property
+		- buat class BaseEntity, hanya ada 1 property Id. kemudian dari class Product bikin implement dari BaseEntity dan hapus property Id karena udah ada di BaseEntity
+		
+	4. seting entity framework
+		- pastikan nuget gallery sudah diinstall
+		- masuk ke tab nuget, pastikan dari nuget.org, uncheck prerelease
+		- search microsoft.entityframework
+			. Microsoft.EntityFrameworkCore.SqlServer pada infrastructure project
+			. Microsoft.EntityFrameworkCore.Design pada API project
+			
+	5. seting sql server
+		- sql server dijalanin pake docker desktop
+		- bikin file docker-compose.yml, di folder skinet-2025
+			services:
+			  sql:
+				image: mcr.microsoft.com/azure-sql-edge
+				environment:
+				  ACCEPT_EULA: "1"
+				  MSSQL_SA_PASSWORD: "Password@1"
+				ports:
+				  - "1433:1433"
+		
+		- dari folder skinet-2025, pada terminal vscode jalankan: docker compose up -d
+		
+	6. konekin sql server dari app
+		- pasang package dotnet-ef: dotnet tool install --global dotnet-ef --version 9.0.4
+		- dari terminal di path skinet-2025, jalankan: dotnet ef migrations add InitialCreate -s API -p Infrastructure
+		- script migration terbentuk di folder project Infrastructure, namun ada masalah dan perlu di remove dulu:
+			- dotnet ef migrations remove -s API -p Infrastructure
+			
+	7. konfig entities untuk proses migrasi:
+		- biar migrasinya bener, perlu di seting entiti productsnya
+		- bikin folder config di project infrastructure, bikin class ProductConfigurations.
+		- pada file StoreContext.cs, tambahkan modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductConfiguration).Assembly);
+		- pada terminal, jalankan migration ulang: dotnet ef migrations add InitialCreate -s API -p Infrastructure
+		- saatnya buat database dari script, jalankan: dotnet ef database update -s API -p Infrastructure
+		- buka menu samping sql server dari vscode, dan bikin koneksi baru ke sql server. perhatikan servernya localhost dan user/pass ambil dari file appsettings.development
+		
+	8. bikin ProductsController
+		- inherit dari ControllerBase
+		- dekorator [ApiController] wajib ada
+		- dekorator [Route("api/[controller]")] --> bikin route /api/nama controller tanpa "controller. misal /api/products
+		
+		
+	
+* SECTION 3	
+	1. untuk prepop data, gunakan seeding data:
+		- storeContextSeed.cs
+		- pemanggilan file dari program.cs
+		- drop dulu table existing, dari terminal path skinet-2025 : dotnet ef database drop -p Infrastructure -s API/
+		- jalankan ulang api dari path API : dotnet watch
+		

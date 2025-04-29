@@ -1,0 +1,51 @@
+GET http://localhost:5000/api/products
+
+### get products sort by priceAsc
+GET http://localhost:5000/api/products?sort=priceDesc
+
+###
+GET http://localhost:5000/api/products/18
+
+###
+GET http://localhost:5000/api/products/brands
+
+### get product by specific brand
+GET http://localhost:5000/api/products?brand=Angular
+
+###
+GET http://localhost:5000/api/products/types
+
+### get product by specific types
+GET http://localhost:5000/api/products?type=Gloves
+
+###
+PUT http://localhost:5000/api/products/17
+Content-Type: application/json
+
+{
+  "name": "Angular Purple Boots update",
+  "description": "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
+  "price": 150.00,
+  "pictureUrl": "/images/products/boot-ang2.png",
+  "type": "Boots",
+  "brand": "Angular",
+  "quantityInStock": 35,
+  "id": 17
+}
+
+###
+POST http://localhost:5000/api/products
+Content-Type: application/json
+
+{
+  "name": "Tambahan data post",
+  "description": "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue.",
+  "price": 120.00,
+  "pictureUrl": "/images/products/boot-ang2.png",
+  "type": "Boots",
+  "brand": "Angular",
+  "quantityInStock": 99
+}
+
+###
+DELETE http://localhost:5000/api/products/19

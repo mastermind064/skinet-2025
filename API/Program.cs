@@ -11,11 +11,12 @@ builder.Services.AddDbContext<StoreContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-// builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddSwaggerGen();
 
+//pasang disini interface dan implementation dari productrepository
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+//pasang disini interface dan implementation dari generic repository
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 //diatas baris ini disebut service. swagger nda dipake, jadi dihapus aja
 var app = builder.Build();
