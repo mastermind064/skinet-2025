@@ -98,3 +98,43 @@
 		- drop dulu table existing, dari terminal path skinet-2025 : dotnet ef database drop -p Infrastructure -s API/
 		- jalankan ulang api dari path API : dotnet watch
 		
+* SECTION 7
+	1. SET UP ANGULAR:
+		- pastikan terinstall nodejs, npm dan angular/cli dengan versi yang sesuai
+		- angular versi min 18, node versi 20, dan npm versi 9
+		- pada folder skinet-2025, bikin project angular: ng new client
+		- jalankan angular: ng serve
+	2. SET HTTPS untuk url angular:
+		- gunakan FiloSottile/mkcert
+		- install dulu chocolatey, kemudian jalankan: choco install mkcert. perlu akses administrator
+		- install mkcert: mkcert -install
+		- dalam folder skinet-2025/client, bikin folder baru ssl: mkdir ssl
+		- masuk dalam folder ssl, jalankan mkcert localhost:
+			- akan ada 2 file terbentuk, certificate file dan certificate-key file
+		- buka file angular.json, pada bagian "serve", dibawah "builder", tambahkan config berikut:
+			"options": {
+				"ssl": true,
+				"sslCert": "ssl/localhost.pem",
+				"sslKey": "ssl/localhost-key.pem"
+			},
+
+	3. PASANG ANGULAR MATERIAL DAN TAILWIND Class
+		- laman: material.angular.io
+		- pastikan di folder client, jalankan : ng add @angular/material
+			- pilih yang theme azure-blue
+			- pada pilihan set up global angular material typography style, pilih no
+
+		- laman angular tailwind: https://tailwindcss.com/docs/installation/framework-guides/angular
+		- pastikan di folder client, jalankan: npm install tailwindcss @tailwindcss/postcss postcss --force
+		- bikin file di folder client, .postcssrc.json :
+			{
+				"plugins": {
+					"@tailwindcss/postcss": {}
+				}
+			}
+		- pada file styles.scss, hapus semua isinya dan tambahkan @import "tailwindcss";
+
+	4. EXTENSION VSCODE BUAT ANGULAR DAN TAILWIND
+		- tailwind intelisense. install versi lama aja, yang baru nda jalankan
+		- auto rename tag
+		
