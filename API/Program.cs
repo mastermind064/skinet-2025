@@ -1,3 +1,4 @@
+using API.Middleware;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -18,20 +19,17 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //pasang disini interface dan implementation dari generic repository
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+//pasang cors service disini
+builder.Services.AddCors();
+
 //diatas baris ini disebut service. swagger nda dipake, jadi dihapus aja
 var app = builder.Build();
 // dibawah ini disebut middleware. yang dipake cuman MapControllers dan Run
 
-// Configure the HTTP request pipeline.
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseSwagger();
-//     app.UseSwaggerUI();
-// }
+app.UseMiddleware<ExceptionMiddleware>();
 
-// app.UseHttpsRedirection();
-
-// app.UseAuthorization();
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+    .WithOrigins("http://localhost:4200", "https://localhost:4200"));//config domain cors
 
 app.MapControllers();
 
