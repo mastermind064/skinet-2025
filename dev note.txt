@@ -137,4 +137,36 @@
 	4. EXTENSION VSCODE BUAT ANGULAR DAN TAILWIND
 		- tailwind intelisense. install versi lama aja, yang baru nda jalankan
 		- auto rename tag
+
+* SECTION 8
+	1. STRUKTUR FOLDER ANGULAR
+		- pada path client/src/app, bikin folder berikut:
+		- Core
+		- Features
+		- Layout
+		- Shared
+
+		- gunakan angular cli, daftar perintah di :  ng help
+		- fokus ke perintah generate : ng generate help
+		- bikin component di folder layout/header, namanya header:
+			- ng g c layout/header --dry-run
+			- menghasilkan 4 file, namun nda butuh file terinstall
+		- bikin ulang component di folder layout/header tanpa test, namanya header:
+			- ng g c layout/header --skip-tests
+
+	2. HEADER COMPONENT
+		- gunakan angular material untuk badge, icon dan button
+		- import angular material pada header.component.ts
+		- buat costum badge pada header.component.scss
+		- copy dan paste folder images dari source asset ke path client/public/
+		- buat custom theme pada file style.scss biar shopping cart sesuai:
+		- pada file header.component.ts, import file berikut:
+			- import {MatIcon} from '@angular/material/icon';
+			- import {MatButton} from '@angular/material/button';
+			- import {MatBadge} from '@angular/material/badge';
+
+	3. Http request angular
+		- pada file app.config.ts, tambahkan providers :
+			- provideAnimationsAsync(),
+			- provideHttpClient()
 		
