@@ -155,18 +155,22 @@
 			- ng g c layout/header --skip-tests
 
 	2. HEADER COMPONENT
-		- gunakan angular material untuk badge, icon dan button
-		- import angular material pada header.component.ts
+		- gunakan angular material untuk badge, icon dan button,  referensi material.angular.io/components/categories
+		- import angular material pada header.component.ts. import secara manual !
+			MatIcon, MatBadge, MatButton
 		- buat costum badge pada header.component.scss
 		- copy dan paste folder images dari source asset ke path client/public/
 		- buat custom theme pada file style.scss biar shopping cart sesuai:
+			tambahkan custom theme pada file index.html 
 		- pada file header.component.ts, import file berikut:
 			- import {MatIcon} from '@angular/material/icon';
 			- import {MatButton} from '@angular/material/button';
 			- import {MatBadge} from '@angular/material/badge';
 
 	3. Http request angular
-		- pada file app.config.ts, tambahkan providers :
+		- pada file app.config.ts, tambahkan providers (manual) :
 			- provideAnimationsAsync(),
 			- provideHttpClient()
-		
+		- inject HttpClient -> private http = inject(HttpClient)
+		- angular perlu inisialisasi dependency injection, gunakan implement OnInit 
+		- buat request di angular menggunakan subscribe
