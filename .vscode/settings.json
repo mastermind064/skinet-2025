@@ -6,5 +6,8 @@
 },
 "editor.quickSuggestions": {
     "strings": true
-}
+},
+"dataworkspace.excludedProjects": [
+    "skinet/skinet.sqlproj"
+]
 }

@@ -174,3 +174,27 @@
 		- inject HttpClient -> private http = inject(HttpClient)
 		- angular perlu inisialisasi dependency injection, gunakan implement OnInit 
 		- buat request di angular menggunakan subscribe
+
+
+* SECTION 12
+	1. SETING REDIS docker	
+		- bikin file docker compose, config buat redis.
+		- buat volume untuk redis dan sql server
+		- jalankan perintah run : docker compose up -d
+		- remove container : docker compose down
+		- hapus volume dan container : docker compose down -v
+
+	2. PASANG REDIS DI dotnet
+		- gunakan tab nuget, search redis, dan pasang di project Infrastructure
+		- edit file program.cs, tambahkan konfigurasi redis:
+			//konek ke redis
+			builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
+			{
+				var connString = builder.Configuration.GetConnectionString("Redis")
+					?? throw new Exception("Cannot get redis connection string");
+				var configuration = ConfigurationOptions.Parse(connString, true);
+				return ConnectionMultiplexer.Connect(configuration);
+			});
+
+		- edit file appsettings.development.json, tambahkan connection string redis:
+			"Redis": "localhost"
